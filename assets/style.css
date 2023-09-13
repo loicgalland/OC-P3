@@ -1,0 +1,485 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+main{
+	max-width: 1140px;
+	margin:auto;
+	margin-bottom: 50px;
+}
+body {
+	line-height: 1;
+}
+footer{
+	background-color: white;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/** end reset css**/
+body {
+
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+	background-color: #FFFEF8;
+}
+header {
+	max-width: 1140px;
+	margin: auto;
+	display: flex;
+	justify-content: space-between;
+	padding: 50px 0
+}
+section {
+	margin: 150px 0
+}
+
+h1{
+	display: flex;
+	flex-direction: column;
+	font-family: 'Syne';
+	font-size: 22px;
+	font-weight: 800;
+	color: #B1663C;
+}
+
+h1 > span {
+	font-family: 'Work Sans';
+	font-size:10px;
+	letter-spacing: 0.1em;
+;
+}
+
+h2{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 30px;
+	color: #1D6154;
+}
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+
+}
+nav li {
+	padding: 0 10px;
+	font-size: 1.2em;
+}
+a{
+	color: inherit;
+	text-decoration: none;
+}
+
+li:hover {
+	color: #B1663C;
+}
+#introduction {
+	display: flex;
+	align-items: center;
+}
+#introduction figure {
+	flex: 1
+}
+#introduction img {
+	display: block;
+	margin: auto;
+	width: 80%;
+}
+#introduction article {
+	flex: 1
+}
+#introduction h2 {
+	margin-bottom: 1em;
+}
+
+#introduction p {
+	margin-bottom: 0.5em;
+}
+#portfolio h2 {
+	text-align: center;
+}
+.gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 20px;
+	grid-row-gap: 20px;
+}
+.gallery img {
+	width: 100%;
+
+}
+.filters{
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	padding: 30px 0px 60px 0px;
+}
+.btn-filter{
+	min-width: 100px;
+	padding: 9px;
+	border-radius: 60px;
+	border: 1px solid #1D6154;
+	background-color: #FFFEF8;
+	font-family: 'Syne';
+	color: #1D6154;
+	font-size: 16px;
+}
+.active{
+	background-color: #1D6154;
+	color: #FFFEF8;
+}
+#contact {
+	width: 50%;
+	margin: auto;
+}
+#contact > * {
+	text-align: center;
+}
+#contact input{
+	min-width: 380px;
+}
+#contact textarea{
+	min-width: 380px;
+}
+#contact h2{
+	margin-bottom: 20px;
+}
+form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+label {
+	margin: 2em 0 1em 0;
+}
+textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.login-input{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+}
+footer{
+	height: 60px;
+	padding-top: 30px;
+	background-color: white;
+}
+footer nav ul {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em;
+	max-width: 1140px;
+	margin: auto;
+}
+.container-login{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.form-login{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.input-form-login{
+ 	width: 380px;
+}
+.footer-login{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+.bar-top{
+	display: none;
+	flex-direction: row;
+	background-color: black;
+	height: 60px;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	gap: 30px;
+}
+.logout-link{
+	display: none;
+}
+.error-message{
+	display: none;
+}
+.edit-container{
+	display: none;
+}
+.title{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	margin-bottom: 1em;
+	gap: 30px;
+}
+.edit-btn{
+	background-color: inherit;
+	border: 0px;
+}
+.edit-btn:hover{
+	color: #B1663C;
+}
+h3{
+	font-size: 2em;
+	text-align: center;
+	padding: 20px 0px 50px 0px;
+}
+.modal-container{
+	display: none;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	left: 0;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.3);
+	height: 100%;
+	width: 100%;
+}
+.modal{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    gap: 30px;
+    width: 630px;
+    border-radius: 10px;
+    background-color: white;
+    padding: 15px 15px 30px 15px;
+}
+.modal-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.modal-add{
+    display: none;
+}
+.nav-add{
+    justify-content: space-between;
+}
+.modal-nav button{
+    background-color: inherit;
+    border: 0px;
+}
+.close-btn:hover{
+    color: #B1663C;
+}
+h3{
+	font-size: 2em;
+	text-align: center;
+    margin: 0;
+}
+.modal-title{
+    padding: 0;
+}
+.modal-body{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 50px;
+}
+.modal-gallery{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	gap: 10px;
+}
+.modal-container-img{
+    display: flex;
+	justify-content: flex-end;
+}
+.modal-img{
+	width: 100%;
+	position: relative;
+	z-index: 0;
+}
+.modal-trash-btn{
+    border: 0px;
+	position: absolute;
+	z-index: 1;
+	color: white;
+	background-color: black;
+	padding: 5px;
+	border-radius: 5px;
+	margin: 5px;
+}
+.modal-trash-btn:hover{
+	background-color: white;
+	color: black;
+}
+.modal-separation-delete{
+    height: 0px;
+    margin: 0px 50px;
+}
+.modal-separation-add{
+    width: 100%;
+    height: 0px;
+    margin: 0px;
+}
+.modal-footer{
+    display: flex;
+    justify-content: center;
+}
+.send-form-contact{
+	margin-top: 50px;
+	font-family: Syne;
+	font-size: 14px;
+	color: white;
+	background-color: #1D6154;
+	width: 240px;
+	border-radius: 60px ;
+	border: 0px;
+	height: 50px;
+}
+.modal-footer button{
+    font-family: Syne;
+	font-size: 14px;
+	color: white;
+	background-color: #1D6154;
+	width: 240px;
+	border-radius: 60px ;
+	border: 0px;
+	height: 50px;
+}
+#form-add-picture{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.fa-icon-img{
+    display: block;
+    font-size: 75px;
+    color: #CBD6DC;
+}
+.add-picture-container{
+    width: 100%;
+    background-color: #E8F1F6;
+    border-radius: 3px;
+    gap: 10px;
+    padding: 0;
+}
+.input-file{
+	margin: 10px;
+	gap: 10px;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#imgInput{
+	display: none;
+}
+#imgInputLabel{
+	margin: 0;
+	width: 175px;
+	padding: 10px 35px;
+	background-color: #CBD6DC;
+	border-radius: 50px;
+	color: #306685;
+	text-align: center;
+	font-family: Work Sans;
+	font-size: 14px;
+}  
+.legen-input{
+    margin: 0;
+	margin-bottom: 5px;
+    font-size: 10px;
+}
+.section-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.section-form input{
+    border: 0px;
+    box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+    height: 50px;
+}
+.submit-add-form{
+	width: 240px;
+    background-color: #A7A7A7;
+    border: 0px;
+    border-radius: 60px;
+    color: white;
+    font-family: Syne;
+    font-size: 14px;
+}
+
+.submit-add-form:hover{
+	background-color: #1D6154;
+	
+}
+.img-selected{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.previsu{
+	height: 150px;
+	width: 100%;
+	object-fit: contain;
+}
