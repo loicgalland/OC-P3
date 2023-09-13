@@ -155,19 +155,19 @@ async function deleteItem(element) {
     }
   });
 }
+
+
 //Création de la fonction pour ajouter un projet
 async function AddProject(title, categoryImg, newImg) {
   const inputImg = document.getElementById("imgInput");
   const inputTitle = document.getElementById("imgInput");
-  const inputCategory = document.getElementById("category");
   const formData = new FormData();
   formData.append("image", newImg);
   formData.append("title", title);
   formData.append("category", categoryImg);
   if (
     inputImg.files[0] == "" ||
-    inputTitle.value == "" ||
-    inputCategory == ""
+    inputTitle.value == ""
   ) {
     alert("Vous devez renseigner tous les champs");
   } else {
@@ -259,10 +259,13 @@ editButton.addEventListener("click", () => {
       changeDisplay(modalAdd, "none");
       changeDisplay(modalDelete, "flex");
     });
-    //appel de la fonction prévisu de l'img
+    //appel de la fonction prévisu de l'img et activation du bouton submit
     const inputImage = document.getElementById("imgInput")
+
     inputImage.addEventListener("change", () =>{
         seePict(containerForm)
+        const inputSubmit = document.querySelector(".submit-add-form").classList.add("submit-active")
+    
     })
     //Ajout du projet
     const formImg = document.getElementById("form-add-picture");
