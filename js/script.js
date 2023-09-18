@@ -7,27 +7,31 @@ import {
 
 // GÉNÉRATION DE LA PAGE A L'OUVERTURE
 //Récupération des travaux sur l'API
-const response = await fetch("http://localhost:5678/api/works");
-const works = await response.json();
+async function FetchWorks(){
+  const response = await fetch("http://localhost:5678/api/works");
+  return response.json();
+}
+
 //Récupération des catégories sur l'API
 const responseCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await responseCategories.json();
 //Récupération du container de la gallery
 const galleryContainer = document.querySelector(".gallery");
 //Appel de la fonction GenerateCards au chargement de la page avec l'array Works
-generateWorks(works, galleryContainer);
+generateWorks(await FetchWorks(), galleryContainer);
 //Récupération du bouton edition et du container de la modal
 const modal = document.querySelector(".modal-container");
 const modalGallery = document.querySelector(".modal-gallery");
 const modalBody = document.querySelector(".modal-body");
 const modalDelete = document.querySelector(".modal-delete");
 const modalAdd = document.querySelector(".modal-add");
+const messageSuccess = document.querySelector(".message-success");
+
 //Appel de la fonction GenerateModal au chargement de la page
-generateModal(works, modalGallery, modalBody);
+generateModal(await FetchWorks(), modalGallery, modalBody);
 //Appel de la fonction GenerateCategoriesModal pour créer les options du select du form
 const selectCategory = document.getElementById("category");
 generateCategoriesModal(selectCategory, categories);
-
 
 //FONCTIONS FILTRES
 //Appel de la fonction GenerateFilters sur l'array Categories
@@ -69,7 +73,6 @@ function deleteFilters() {
   buttonsContainer.innerHTML = "";
 }
 
-
 // LOGIN
 //TOKEN (RÉCUPÉRATION ET SUPPRESSION)
 //récupérationd de tous les éléments qui doivent être visible quand la session est ouvert
@@ -92,32 +95,35 @@ logOutLink.addEventListener("click", () => {
   sessionStorage.clear();
 });
 
-
 //DÉCLARATION FONCTIONS POUR AJOUT ET SUPPRESSION D'UN PROJET
 //Récupération du bouton edition et du container de la modal
 const editButton = document.querySelector(".edit-btn");
 //création de la fonction pour supprimer un projet
 async function deleteItem(element) {
-  element.addEventListener("click", async () => {
+  //element.addEventListener("click", async (e) => {
+    //e.preventDefault();
     const userConfirm = confirm("Voulez-vous vraiment supprimer le projet ?");
     if (userConfirm) {
-      const reponse = await fetch(`http://localhost:5678/api/works/${element.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        if (reponse.ok) {
-          modalBody.removeChild(element.parentNode);
-          const idImageDelete = `fig-${element.id}`;
-          const galleryImgToDelete = document.getElementById(idImageDelete);
-          galleryContainer.removeChild(galleryImgToDelete);
-        } else {
-          console.log("Une erreur est survenue");
+      const reponse = await fetch(
+        `http://localhost:5678/api/works/${element.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
+      );
+      if (reponse.ok) {
+        modalBody.removeChild(element.parentNode);
+        const idImageDelete = `fig-${element.id}`;
+        const galleryImgToDelete = document.getElementById(idImageDelete);
+        galleryContainer.removeChild(galleryImgToDelete);
+      } else {
+        console.log("Une erreur est survenue");
+      }
     }
-  });
+  //});
 }
 //Création de la fonction pour ajouter un projet
 async function AddProject(title, categoryImg, newImg) {
@@ -137,17 +143,22 @@ async function AddProject(title, categoryImg, newImg) {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
-    })
-      if (reponse.ok) {
-        console.log("Youpi, votre fichier a été envoyé");
-      } else {
-        alert("Un probleme est survenu");
-      }
+    });
+    if (reponse.ok) {
+      messageSuccess.innerHTML = "Le projet a été ajouté avec succès";
 
+      const works = await FetchWorks()
+      galleryContainer.innerHTML = "";
+      generateWorks(works, galleryContainer);
+      modalGallery.innerHTML = "";
+      generateModal(works, modalGallery, modalBody);
+
+    } else {
+      alert("Un probleme est survenu");
+    }
   }
 }
-
-//DECLARATION DE LA FONCTION POUR LA PREVISU
+//DÉCLARATION DE LA FONCTION POUR LA PREVISU
 //Création de la fonction qui affiche une prévisu de l'image
 function seePict(containerForm) {
   document.querySelector(".img-selected").innerHTML = "";
@@ -166,34 +177,35 @@ function seePict(containerForm) {
 editButton.addEventListener("click", () => {
   modal.style.display = "flex";
 });
-//Fermer la modal au clic sur la croix et remise du display flex sur modalDelete
-const closeBtn = document.querySelector(".close-btn");
-closeBtn.addEventListener("click", () => {
+//Fonction qui ferme la modal
+function closeModal(){
   modal.style.display = "none";
   modalAdd.style.display = "none";
   modalDelete.style.display = "flex";
+  document.getElementById("title").value = ""
+}
+//Fermer la modal au clic sur la croix et remise du display flex sur modalDelete
+const closeBtn = document.querySelector(".close-btn");
+closeBtn.addEventListener("click", () => {
+  closeModal()
 });
 //Fermer la modal quand echap est enclanché et remise du display flex sur modalDelete
 document.addEventListener("keydown", function (event) {
   // Vérifiez si la touche enfoncée est la touche "Esc"
   if (event.key === "Escape" || event.key === "Esc") {
-    modal.style.display = "none";
-    modalAdd.style.display = "none";
-    modalDelete.style.display = "flex";
+    closeModal()
   }
 });
 //Fermer modal quand clic en dehors et remise du display flex sur modalDelete
 document.body.addEventListener("click", function (e) {
   // Vérifiez si le clic a eu lieu en dehors de la modal
   if (e.target === modal) {
-    modal.style.display = "none";
-    modalAdd.style.display = "none";
-    modalDelete.style.display = "flex";
+    closeModal()
   }
 });
 const addBtn = document.querySelector(".btn-add-picture");
 const containerForm = document.querySelector(".input-file");
-//changer de modal pour modalAdd
+//Changer de modal pour modalAdd
 addBtn.addEventListener("click", () => {
   modalAdd.style.display = "flex";
   modalDelete.style.display = "none";
@@ -201,13 +213,15 @@ addBtn.addEventListener("click", () => {
   containerForm.style.display = "flex";
   document.querySelector(".img-selected").innerHTML = "";
 });
-//retour sur la modalDelete
+//Retour sur la modalDelete
 const previousBtn = document.querySelector(".close-previous");
 previousBtn.addEventListener("click", () => {
   modalAdd.style.display = "none";
   modalDelete.style.display = "flex";
+  messageSuccess.innerHTML = "";
+  document.getElementById("title").value = ""
 });
-//fermeture de toutes les modals
+//Fermeture de toutes les modals
 const closeAddbtn = document.querySelector(".close-add-btn");
 closeAddbtn.addEventListener("click", () => {
   modal.style.display = "none";
@@ -215,9 +229,8 @@ closeAddbtn.addEventListener("click", () => {
   modalDelete.style.display = "flex";
 });
 
-
 // PRÉVISU DE L'IMAGE ADD
-//appel de la fonction prévisu de l'img et activation du bouton submit
+//Appel de la fonction prévisu de l'img et activation du bouton submit
 const inputImage = document.getElementById("imgInput");
 inputImage.addEventListener("change", () => {
   seePict(containerForm);
@@ -226,14 +239,7 @@ inputImage.addEventListener("change", () => {
     .classList.add("submit-active");
 });
 
-
-//APPEL DES FONCTIONS AJOUT ET SUPPRESSION PROJET AU CLIC SUR BTN
-//Récupération des boutons de suppression des photos
-const deleteBtn = document.querySelectorAll(".modal-trash-btn");
-//Appel de la fontion deleteItem au clic sur chaque projet
-deleteBtn.forEach((element) => {
-  deleteItem(element);
-});
+//APPEL DES FONCTIONS AJOUT ET SUPPRESSION PROJET AU CLIC SUR BTN``
 //Ajout du projet
 const formImg = document.getElementById("form-add-picture");
 formImg.addEventListener("submit", (e) => {
@@ -241,5 +247,13 @@ formImg.addEventListener("submit", (e) => {
   const title = document.getElementById("title").value;
   const categoryImg = document.getElementById("category").value;
   const newImg = document.getElementById("imgInput").files[0];
-  AddProject(title, categoryImg, newImg);
+  AddProject(title, categoryImg, newImg)
+});
+
+//Appel de la fonction delete au clic sur tous les btn delete du modalBody
+modalBody.addEventListener('click', function(event) {
+  if (event.target.classList.contains('modal-trash-btn')) {
+    event.preventDefault();
+    deleteItem(event.target)
+  }
 });

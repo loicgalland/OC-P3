@@ -33,8 +33,8 @@ export async function generateModal(array, galleryModal, containerModal) {
       const deleteIcon = document.createElement("button");
       deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can fa-xs"></i>`;
       deleteIcon.classList.add("modal-trash-btn");
-      deleteIcon.setAttribute("id", `${element.id}`);
-      containerImg.setAttribute("id", `${element.id}`)
+      deleteIcon.setAttribute("id", element.id);
+      containerImg.setAttribute("id", `container-img-${element.id}`)
       //Génération des éléments dans body
       containerModal.appendChild(containerImg);
       containerImg.appendChild(img);

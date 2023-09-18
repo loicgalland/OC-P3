@@ -492,3 +492,8 @@ h3{
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
     height: 50px;
 }
+.message-success{
+	text-align: center;
+	padding-top: 15px;
+	color: #1D6154;
+}
