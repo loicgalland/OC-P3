@@ -7,18 +7,18 @@ import {
 
 // GÉNÉRATION DE LA PAGE A L'OUVERTURE
 //Récupération des travaux sur l'API
-async function FetchWorks(){
+async function fetchWorks() {
   const response = await fetch("http://localhost:5678/api/works");
   return response.json();
 }
-
+const works = await fetchWorks()
 //Récupération des catégories sur l'API
 const responseCategories = await fetch("http://localhost:5678/api/categories");
 const categories = await responseCategories.json();
 //Récupération du container de la gallery
 const galleryContainer = document.querySelector(".gallery");
 //Appel de la fonction GenerateCards au chargement de la page avec l'array Works
-generateWorks(await FetchWorks(), galleryContainer);
+generateWorks(works, galleryContainer);
 //Récupération du bouton edition et du container de la modal
 const modal = document.querySelector(".modal-container");
 const modalGallery = document.querySelector(".modal-gallery");
@@ -28,7 +28,7 @@ const modalAdd = document.querySelector(".modal-add");
 const messageSuccess = document.querySelector(".message-success");
 
 //Appel de la fonction GenerateModal au chargement de la page
-generateModal(await FetchWorks(), modalGallery, modalBody);
+generateModal(works, modalGallery, modalBody);
 //Appel de la fonction GenerateCategoriesModal pour créer les options du select du form
 const selectCategory = document.getElementById("category");
 generateCategoriesModal(selectCategory, categories);
@@ -51,6 +51,7 @@ filterAll.addEventListener("click", () => {
   changeActive(buttonActive, filterAll);
   generateWorks(works, galleryContainer);
 });
+
 //Filtrer les projets par catégories
 filtersButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -67,7 +68,7 @@ filtersButtons.forEach((button) => {
     generateWorks(elementArray, galleryContainer);
   });
 });
-//function qui supprimer les filtres
+//Function qui supprimer les filtres
 function deleteFilters() {
   const buttonsContainer = document.querySelector(".filters");
   buttonsContainer.innerHTML = "";
@@ -75,7 +76,7 @@ function deleteFilters() {
 
 // LOGIN
 //TOKEN (RÉCUPÉRATION ET SUPPRESSION)
-//récupérationd de tous les éléments qui doivent être visible quand la session est ouvert
+//Récupérationd de tous les éléments qui doivent être visible quand la session est ouvert
 const topBar = document.querySelector(".bar-top");
 const logInLink = document.querySelector(".login-link");
 const logOutLink = document.querySelector(".logout-link");
@@ -101,28 +102,28 @@ const editButton = document.querySelector(".edit-btn");
 //création de la fonction pour supprimer un projet
 async function deleteItem(element) {
   //element.addEventListener("click", async (e) => {
-    //e.preventDefault();
-    const userConfirm = confirm("Voulez-vous vraiment supprimer le projet ?");
-    if (userConfirm) {
-      const reponse = await fetch(
-        `http://localhost:5678/api/works/${element.id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (reponse.ok) {
-        modalBody.removeChild(element.parentNode);
-        const idImageDelete = `fig-${element.id}`;
-        const galleryImgToDelete = document.getElementById(idImageDelete);
-        galleryContainer.removeChild(galleryImgToDelete);
-      } else {
-        console.log("Une erreur est survenue");
+  //e.preventDefault();
+  const userConfirm = confirm("Voulez-vous vraiment supprimer le projet ?");
+  if (userConfirm) {
+    const reponse = await fetch(
+      `http://localhost:5678/api/works/${element.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
+    );
+    if (reponse.ok) {
+      modalBody.removeChild(element.parentNode);
+      const idImageDelete = `fig-${element.id}`;
+      const galleryImgToDelete = document.getElementById(idImageDelete);
+      galleryContainer.removeChild(galleryImgToDelete);
+    } else {
+      console.log("Une erreur est survenue");
     }
+  }
   //});
 }
 //Création de la fonction pour ajouter un projet
@@ -147,12 +148,11 @@ async function AddProject(title, categoryImg, newImg) {
     if (reponse.ok) {
       messageSuccess.innerHTML = "Le projet a été ajouté avec succès";
 
-      const works = await FetchWorks()
+      const work = await fetchWorks();
       galleryContainer.innerHTML = "";
-      generateWorks(works, galleryContainer);
+      generateWorks(work, galleryContainer);
       modalGallery.innerHTML = "";
-      generateModal(works, modalGallery, modalBody);
-
+      generateModal(work, modalGallery, modalBody);
     } else {
       alert("Un probleme est survenu");
     }
@@ -178,29 +178,29 @@ editButton.addEventListener("click", () => {
   modal.style.display = "flex";
 });
 //Fonction qui ferme la modal
-function closeModal(){
+function closeModal() {
   modal.style.display = "none";
   modalAdd.style.display = "none";
   modalDelete.style.display = "flex";
-  document.getElementById("title").value = ""
+  document.getElementById("title").value = "";
 }
 //Fermer la modal au clic sur la croix et remise du display flex sur modalDelete
 const closeBtn = document.querySelector(".close-btn");
 closeBtn.addEventListener("click", () => {
-  closeModal()
+  closeModal();
 });
 //Fermer la modal quand echap est enclanché et remise du display flex sur modalDelete
 document.addEventListener("keydown", function (event) {
   // Vérifiez si la touche enfoncée est la touche "Esc"
   if (event.key === "Escape" || event.key === "Esc") {
-    closeModal()
+    closeModal();
   }
 });
 //Fermer modal quand clic en dehors et remise du display flex sur modalDelete
 document.body.addEventListener("click", function (e) {
   // Vérifiez si le clic a eu lieu en dehors de la modal
   if (e.target === modal) {
-    closeModal()
+    closeModal();
   }
 });
 const addBtn = document.querySelector(".btn-add-picture");
@@ -219,14 +219,12 @@ previousBtn.addEventListener("click", () => {
   modalAdd.style.display = "none";
   modalDelete.style.display = "flex";
   messageSuccess.innerHTML = "";
-  document.getElementById("title").value = ""
+  document.getElementById("title").value = "";
 });
 //Fermeture de toutes les modals
 const closeAddbtn = document.querySelector(".close-add-btn");
 closeAddbtn.addEventListener("click", () => {
-  modal.style.display = "none";
-  modalAdd.style.display = "none";
-  modalDelete.style.display = "flex";
+  closeModal()
 });
 
 // PRÉVISU DE L'IMAGE ADD
@@ -247,13 +245,13 @@ formImg.addEventListener("submit", (e) => {
   const title = document.getElementById("title").value;
   const categoryImg = document.getElementById("category").value;
   const newImg = document.getElementById("imgInput").files[0];
-  AddProject(title, categoryImg, newImg)
+  AddProject(title, categoryImg, newImg);
 });
 
 //Appel de la fonction delete au clic sur tous les btn delete du modalBody
-modalBody.addEventListener('click', function(event) {
-  if (event.target.classList.contains('modal-trash-btn')) {
+modalBody.addEventListener("click", function (event) {
+  if (event.target.classList.contains("modal-trash-btn")) {
     event.preventDefault();
-    deleteItem(event.target)
+    deleteItem(event.target);
   }
 });
