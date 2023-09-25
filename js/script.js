@@ -164,7 +164,6 @@ function previsualisationPicture(containerForm) {
   const img = document.createElement("img");
   const imageSource = URL.createObjectURL(inputImage.files[0]);
   img.setAttribute("src", imageSource);
-  console.log(imageSource)
   img.classList.add("previsualisation");
   container.appendChild(img);
   containerForm.style.display = "none";
