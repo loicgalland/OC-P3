@@ -101,8 +101,6 @@ logOutLink.addEventListener("click", () => {
 const editButton = document.querySelector(".edit-btn");
 //création de la fonction pour supprimer un projet
 async function deleteItem(element) {
-  //element.addEventListener("click", async (e) => {
-  //e.preventDefault();
   const userConfirm = confirm("Voulez-vous vraiment supprimer le projet ?");
   if (userConfirm) {
     const reponse = await fetch(
@@ -113,8 +111,7 @@ async function deleteItem(element) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }
-    );
+      });
     if (reponse.ok) {
       modalBody.removeChild(element.parentNode);
       const idImageDelete = `fig-${element.id}`;
@@ -160,14 +157,15 @@ async function AddProject(title, categoryImg, newImg) {
 }
 //DÉCLARATION DE LA FONCTION POUR LA PREVISU
 //Création de la fonction qui affiche une prévisu de l'image
-function seePict(containerForm) {
+function previsualisationPicture(containerForm) {
   document.querySelector(".img-selected").innerHTML = "";
-  let imgSrc = document.getElementById("imgInput").value;
-  imgSrc = imgSrc.slice(11, imgSrc.length);
   const container = document.querySelector(".img-selected");
+  const inputImage = document.getElementById("imgInput")
   const img = document.createElement("img");
-  img.setAttribute("src", `./assets/images/${imgSrc}`);
-  img.classList.add("previsu");
+  const imageSource = URL.createObjectURL(inputImage.files[0]);
+  img.setAttribute("src", imageSource);
+  console.log(imageSource)
+  img.classList.add("previsualisation");
   container.appendChild(img);
   containerForm.style.display = "none";
 }
@@ -231,7 +229,7 @@ closeAddbtn.addEventListener("click", () => {
 //Appel de la fonction prévisu de l'img et activation du bouton submit
 const inputImage = document.getElementById("imgInput");
 inputImage.addEventListener("change", () => {
-  seePict(containerForm);
+  previsualisationPicture(containerForm);
   const inputSubmit = document
     .querySelector(".submit-add-form")
     .classList.add("submit-active");
